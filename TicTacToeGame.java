@@ -3,51 +3,73 @@ import java.util.Scanner;
 public class TicTacToeGame {
 
 	public static char[] board;
-	public static String computerTurn;
-	public static String playerTurn;
+	public static char userLetter;
+	public static char computerLetter;
 
-	public static char[] createBoard() {
+	public static void createBoard() {
 
-		char[] board = new char[9];
+		board = new char[9];
 
 		for(int i = 0; i < board.length; i++) {
 
-			board[i] =' ';
+			board[i] = (char) (i + '1');
 
 		}
-
-		return board;
 
 	}
 
-	public static void Turn() {
-
-		Scanner sc = new Scanner(System.in);
-
-		System.out.println("Enter a x or y");
-
-		playerTurn = sc.next();
+	public static char chooseUserLetter(Scanner userInput) {
 
 
-	if (playerTurn.equals("x")) {
+		System.out.println("Choose your letter 'x' or 'o': ");
 
-			computerTurn = "O";
+		while(true) {
 
-		}
+			char userChoice = userInput.next().toUpperCase().charAt(0);
 
-		else {
+			if( userChoice == 'X' || userChoice == 'O' )
 
-			computerTurn = "X";
+			return userChoice;
+
+			else
+
+			System.out.println("Enter a valid letter 'x' or 'o': ");
 
 		}
+
+	}
+
+	public static void showBoard(){
+
+		System.out.println("|---|---|---|");
+
+		System.out.println("| " + board[0] + " | " + board[1] + " | " + board[2] + " |");
+
+		System.out.println("|-----------|");
+
+		System.out.println("| " + board[3] + " | " + board[4] + " | " + board[5] + " |");
+
+		System.out.println("|-----------|");
+
+		System.out.println("| " + board[6] + " | " + board[7] + " | " + board[8] + " |");
+
+		System.out.println("|---|---|---|");
+
 	}
 
 	public static void main(String[] args) {
 
-		char[] board = createBoard();
+      Scanner userInput = new Scanner(System.in);
 
-		Turn();
+		createBoard();
+
+		char userLetter = chooseUserLetter(userInput);
+
+		char computerLetter = (userLetter == 'X') ? 'O' : 'X';
+
+		showBoard();
 
 	}
 
 }
+
