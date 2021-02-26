@@ -1,10 +1,11 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class TicTacToeGame {
 
 	public static char[] board;
 	public static char userLetter;
 	public static char computerLetter;
+	 public static int inPut;
 
 	public static void createBoard() {
 
@@ -39,7 +40,7 @@ public class TicTacToeGame {
 
 	}
 
-	public static void showBoard(){
+	public static void showBoard() {
 
 		System.out.println("|---|---|---|");
 
@@ -57,19 +58,50 @@ public class TicTacToeGame {
 
 	}
 
+	public static void makeMove(Scanner userInput) {
+
+		System.out.println( "User will play first. Enter a index number to place " + userLetter + " in: "); 
+
+		try {
+
+			inPut = userInput.nextInt();
+
+			if (!(inPut > 0 && inPut <= 9)) {
+
+				System.out.println("Invalid input");
+
+			}
+
+		}
+
+		catch (InputMismatchException e) {
+
+			System.out.println("Invalid input");
+
+		}
+
+		board[inPut - 1] = userLetter;
+
+		showBoard();
+
+	}
+
 	public static void main(String[] args) {
 
       Scanner userInput = new Scanner(System.in);
 
 		createBoard();
 
-		char userLetter = chooseUserLetter(userInput);
+		userLetter = chooseUserLetter(userInput);
 
-		char computerLetter = (userLetter == 'X') ? 'O' : 'X';
+		computerLetter = (userLetter == 'X') ? 'O' : 'X';
 
 		showBoard();
+
+		makeMove(userInput);
 
 	}
 
 }
+
 
