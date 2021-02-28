@@ -7,7 +7,8 @@ public class TicTacToeGame {
 	public static char computerLetter;
 	public static int inPut;
 	public static char turn;
-	public static String winner;
+	public static char winner;
+	public static String line;
 
 	public static void createBoard() {
 
@@ -63,7 +64,9 @@ public class TicTacToeGame {
 
 		System.out.println("Enter a index number to place " + turn + " in: ");
 
-		while (winner == null) {
+		while (winner == '\u0000') {
+
+			inPut = 0;
 
 			try {
 
@@ -105,7 +108,7 @@ public class TicTacToeGame {
 
 				if (turn == userLetter) {
 
-					System.out.println("Computer's turn; enter a slot number to place " + computerLetter + " in:");
+//				  System.out.println("Computer's turn; enter a slot number to place " + computerLetter + " in:");
 
 					turn = computerLetter;
 
@@ -113,13 +116,11 @@ public class TicTacToeGame {
 
 				else {
 
-					System.out.println("User's turn; enter a slot number to place " + userLetter + " in:");
+//				  System.out.println("User's turn; enter a slot number to place " + userLetter + " in:");
 
 					turn = userLetter;
 
 				}
-
-				winner = checkWinner();
 
 			}
 
@@ -129,9 +130,22 @@ public class TicTacToeGame {
 
 			}
 
+			winner = checkWinner();
+
+			if (winner == '\u0000')
+				if (turn == userLetter) {
+
+					System.out.println("User's turn; enter a slot number to place " + userLetter + " in:");
+
+				} else {
+
+					System.out.println("Computer's turn: ");
+
+				}
+
 		}
 
-		if (winner.equalsIgnoreCase("draw")) {
+		if (winner == 'd') {
 
 			System.out.println("It's a draw! Thanks for playing.");
 
@@ -139,7 +153,7 @@ public class TicTacToeGame {
 
 		else {
 
-			if (winner == String.valueOf(userLetter)) {
+			if (winner == userLetter) {
 
 				System.out.println("\nCongratulations! User's have won! Thanks for playing.");
 
@@ -168,8 +182,6 @@ public class TicTacToeGame {
 	}
 
 	static String checkPosition(int a) {
-
-		String line = null;
 
 		switch (a) {
 		case 0:
@@ -202,21 +214,21 @@ public class TicTacToeGame {
 
 	}
 
-	static String checkWinner() {
+	static char checkWinner() {
 
 		for (int a = 0; a < 8; a++) {
 
-			String line = checkPosition(a);
+			line = checkPosition(a);
 
 			// For X winner
 			if (line.equals("XXX")) {
 
-				return "X";
+				return 'X';
 			}
 
 			// For O winner
 			else if (line.equals("OOO")) {
-				return "O";
+				return 'O';
 			}
 		}
 
@@ -232,258 +244,240 @@ public class TicTacToeGame {
 
 			else if (a == 8) {
 
-				return "draw";
+				return 'd';
 
 			}
 		}
 
-		return null;
+		return '\u0000';
 	}
 
-	public static int computerTurnIfX(Scanner userInput) {
-
-		boolean flag = false;
-
-		System.out.println("Computer method executed");
+	public static int computerCheckToWinIfX(Scanner userInput) {
 
 		for (int a = 0; a < 8; a++) {
 
-			String line = checkPosition(a);
+			line = checkPosition(a);
 
 			switch (line) {
 
 			// Line-1 if X
 			case "1XX":
 				inPut = 1;
-				flag = false;
 				a = 9;
 				break;
 			case "X2X":
 				inPut = 2;
-				flag = false;
 				a = 9;
 				break;
 			case "XX3":
 				inPut = 3;
-				flag = false;
 				a = 9;
 				break;
 
 			// Line-2 if X
 			case "4XX":
 				inPut = 4;
-				flag = false;
 				a = 9;
 				break;
 			case "X5X":
 				inPut = 5;
-				flag = false;
 				a = 9;
 				break;
 			case "XX6":
 				inPut = 6;
-				flag = false;
 				a = 9;
 				break;
 
 			// Line-3 if X
 			case "7XX":
 				inPut = 7;
-				flag = false;
 				a = 9;
 				break;
 			case "X8X":
 				inPut = 8;
-				flag = false;
 				a = 9;
 				break;
 			case "XX9":
 				inPut = 9;
-				flag = false;
 				a = 9;
 				break;
 
 			case "X4X":
 				inPut = 4;
-				flag = false;
 				a = 9;
 				break; // vertical Left column middle
 			case "2XX":
 				inPut = 2;
-				flag = false;
 				a = 9;
 				break; // vertical middle column middle
 			case "XX8":
 				inPut = 8;
-				flag = false;
 				a = 9;
 				break; // vertical middle column third
 			case "X6X":
 				inPut = 6;
-				flag = false;
 				a = 9;
 				break; // Vertical right column middle
 			case "3XX":
 				inPut = 3;
-				flag = false;
 				a = 9;
 				break; // Vertical right column first
 
 			case "XX7":
 				inPut = 7;
-				flag = false;
 				a = 9;
 				break; // Right to left diagonal third element
-
-			default:
-				System.out.println("No match found");
-				flag = true;
 
 			}
 
 		}
 
-		if (flag == true) {
+		if (computerLetter == 'X') {
 
-			if (computerLetter == 'X') {
+			inPut = computerCheckToWinIfO(userInput);
 
-				inPut = computerTurnIfO(userInput);
+		}
 
-			}
+		if (inPut == 0) {
 
-			System.out.println("Do you want to enter press y");
-			String check = userInput.next();
-			if (check.equals("y")) {
+			inPut = computerTakeAvailableCorner();
 
-				System.out.println("Enter a number for computerer");
-				inPut = userInput.nextInt();
-
-			}
 		}
 
 		return inPut;
 
 	}
 
-	public static int computerTurnIfO(Scanner userInput) {
-
-		boolean flag = false;
-
-		System.out.println("Computer method executed");
+	public static int computerCheckToWinIfO(Scanner userInput) {
 
 		for (int a = 0; a < 8; a++) {
 
-			String line = checkPosition(a);
+			line = checkPosition(a);
 
 			switch (line) {
 
 			// Line-1 if O
 			case "1OO":
 				inPut = 1;
-				flag = false;
 				a = 9;
 				break;
 			case "O2O":
 				inPut = 2;
-				flag = false;
 				a = 9;
 				break;
 			case "OO3":
 				inPut = 3;
-				flag = false;
 				a = 9;
 				break;
 
 			// Line-2 if O
 			case "4OO":
 				inPut = 4;
-				flag = false;
 				a = 9;
 				break;
 			case "O5O":
 				inPut = 5;
-				flag = false;
 				a = 9;
 				break;
 			case "OO6":
 				inPut = 6;
-				flag = false;
 				a = 9;
 				break;
 
 			// Line-3 if O
 			case "7OO":
 				inPut = 7;
-				flag = false;
 				a = 9;
 				break;
 			case "O8O":
 				inPut = 8;
-				flag = false;
 				a = 9;
 				break;
 			case "OO9":
 				inPut = 9;
-				flag = false;
 				a = 9;
 				break;
 
 			case "O4O":
 				inPut = 4;
-				flag = false;
 				a = 9;
 				break; // vertical Left column middle
 			case "2OO":
 				inPut = 2;
-				flag = false;
 				a = 9;
 				break; // vertical middle column middle
 			case "OO8":
 				inPut = 8;
-				flag = false;
 				a = 9;
 				break; // vertical middle column third
 			case "O6O":
 				inPut = 6;
-				flag = false;
 				a = 9;
 				break; // Vertical right column middle
 			case "3OO":
 				inPut = 3;
-				flag = false;
 				a = 9;
 				break; // Vertical right column first
 
 			case "OO7":
 				inPut = 7;
-				flag = false;
 				a = 9;
 				break; // Right to left diagonal third element
-
-			default:
-				System.out.println("No match found");
-				flag = true;
 
 			}
 
 		}
 
-		if (flag == true) {
+		if (computerLetter == 'O') {
 
-			if (computerLetter == 'O') {
+			inPut = computerCheckToWinIfX(userInput);
 
-				inPut = computerTurnIfX(userInput);
+		}
 
-			}
+		return inPut;
 
-			System.out.println("Do you want to enter press y");
-			String check = userInput.next();
-			if (check.equals("y")) {
+	}
 
-				System.out.println("Enter a number for computerer");
-				inPut = userInput.nextInt();
+	public static int computerTakeAvailableCorner() {
 
-			}
+		if ((board[0] == '1' && board[1] == '2') && board[3] == '4') {
+
+			inPut = 1;
+
+		} else if ((board[2] == '3' && board[1] == '2') && board[5] == '6') {
+
+			inPut = 3;
+
+		} else if ((board[6] == '7' && board[3] == '4') && board[7] == '8') {
+
+			inPut = 7;
+
+		} else if ((board[8] == '9' && board[7] == '8') && board[5] == '6') {
+
+			inPut = 9;
+
+		} else if (board[0] == '1') {
+
+			inPut = 1;
+
+		}
+
+		else if (board[2] == '3') {
+
+			inPut = 3;
+
+		}
+
+		else if (board[6] == '7') {
+
+			inPut = 7;
+
+		}
+
+		else if (board[8] == '9') {
+
+			inPut = 9;
+
 		}
 
 		return inPut;
@@ -494,13 +488,13 @@ public class TicTacToeGame {
 
 		if (computerLetter == 'X') {
 
-			return computerTurnIfX(userInput);
+			return computerCheckToWinIfX(userInput);
 
 		}
 
 		else {
 
-			return computerTurnIfO(userInput);
+			return computerCheckToWinIfO(userInput);
 
 		}
 
