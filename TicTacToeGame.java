@@ -5,7 +5,7 @@ public class TicTacToeGame {
    public static char[] board;
    public static char userLetter;
    public static char computerLetter;
-    public static int inPut;
+   public static int inPut = 0;
 
    public static void createBoard() {
 
@@ -13,7 +13,7 @@ public class TicTacToeGame {
 
       for(int i = 0; i < board.length; i++) {
 
-         board[i] = (char) (i + '1'); //in ASCII 0 represents 48 => (48 + 1)=49 represents 1
+         board[i] = (char) (i + '1');
 
       }
 
@@ -58,9 +58,11 @@ public class TicTacToeGame {
 
    }
 
-   public static void makeMove(Scanner userInput) {
+   public static void makeMove(Scanner userInput, char turn) {
 
-      System.out.println( "User will play first. Enter a index number to place " + userLetter + " in: ");
+      System.out.println( "Enter a index number to place " + turn + " in: ");
+
+      while(true) {
 
       try {
 
@@ -80,9 +82,17 @@ public class TicTacToeGame {
 
       }
 
-      if( String.valueOf(board[inPut - 1]).equals(String.valueOf(inPut))) {
+      if(String.valueOf(board[inPut - 1]).equals(String.valueOf(inPut))) {
 
-      board[inPut - 1] = userLetter;
+      board[inPut - 1] = turn;
+
+      if (turn == userLetter )
+
+          turn = computerLetter;
+
+      else
+
+          turn = userLetter;
 
       showBoard();
 
@@ -90,12 +100,29 @@ public class TicTacToeGame {
 
       else {
 
-        System.out.println( "Slot already taken; re-enter slot number:");
+    	  System.out.println( "Slot already taken; re-enter slot number:");
+
+      }
 
       }
 
    }
 
+   public static char toss() {
+
+	   double toss = Math.floor(Math.random() * 10) % 2;
+
+	   if(toss == 0) {
+
+		   System.out.println("User got the chance first");
+		   return userLetter;
+	   }
+	   else
+
+		   System.out.println("Computer got the chance first");
+		   return computerLetter;
+
+   }
 
    public static void main(String[] args) {
 
@@ -109,7 +136,9 @@ public class TicTacToeGame {
 
       showBoard();
 
-      makeMove(userInput);
+      char turn = toss();
+
+      makeMove(userInput, turn);
 
    }
 
