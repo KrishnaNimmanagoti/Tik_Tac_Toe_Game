@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class TicTacToeGameUC7 {
+public class TicTacToeGame {
 
    public static char[] board;
    public static char userLetter;
