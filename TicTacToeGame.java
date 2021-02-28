@@ -5,7 +5,7 @@ public class TicTacToeGame {
 	public static char[] board;
 	public static char userLetter;
 	public static char computerLetter;
-	public static int inPut = 0;
+	public static int inPut;
 	public static char turn;
 	public static String winner;
 
@@ -67,7 +67,17 @@ public class TicTacToeGame {
 
 			try {
 
-				inPut = userInput.nextInt();
+				if (turn == computerLetter) {
+
+					inPut = computerTurn(userInput); // calling computerTurn
+
+				}
+
+				else {
+
+					inPut = userInput.nextInt();
+
+				}
 
 				if (!(inPut > 0 && inPut <= 9)) {
 
@@ -157,39 +167,50 @@ public class TicTacToeGame {
 
 	}
 
-	static String checkWinner() {
-		for (int a = 0; a < 8; a++) {
-			String line = null;
+	static String checkPosition(int a) {
 
-			switch (a) {
-			case 0:
-				line = String.valueOf(board[0]) + String.valueOf(board[1]) + String.valueOf(board[2]);
-				break;
-			case 1:
-				line = String.valueOf(board[3]) + String.valueOf(board[4]) + String.valueOf(board[5]);
-				break;
-			case 2:
-				line = String.valueOf(board[6]) + String.valueOf(board[7]) + String.valueOf(board[8]);
-				break;
-			case 3:
-				line = String.valueOf(board[0]) + String.valueOf(board[3]) + String.valueOf(board[6]);
-				break;
-			case 4:
-				line = String.valueOf(board[1]) + String.valueOf(board[4]) + String.valueOf(board[7]);
-				break;
-			case 5:
-				line = String.valueOf(board[2]) + String.valueOf(board[5]) + String.valueOf(board[8]);
-				break;
-			case 6:
-				line = String.valueOf(board[0]) + String.valueOf(board[4]) + String.valueOf(board[8]);
-				break;
-			case 7:
-				line = String.valueOf(board[2]) + String.valueOf(board[4]) + String.valueOf(board[6]);
-				break;
-			}
+		String line = null;
+
+		switch (a) {
+		case 0:
+			line = String.valueOf(board[0]) + String.valueOf(board[1]) + String.valueOf(board[2]);
+			break;
+		case 1:
+			line = String.valueOf(board[3]) + String.valueOf(board[4]) + String.valueOf(board[5]);
+			break;
+		case 2:
+			line = String.valueOf(board[6]) + String.valueOf(board[7]) + String.valueOf(board[8]);
+			break;
+		case 3:
+			line = String.valueOf(board[0]) + String.valueOf(board[3]) + String.valueOf(board[6]);
+			break;
+		case 4:
+			line = String.valueOf(board[1]) + String.valueOf(board[4]) + String.valueOf(board[7]);
+			break;
+		case 5:
+			line = String.valueOf(board[2]) + String.valueOf(board[5]) + String.valueOf(board[8]);
+			break;
+		case 6:
+			line = String.valueOf(board[0]) + String.valueOf(board[4]) + String.valueOf(board[8]);
+			break;
+		case 7:
+			line = String.valueOf(board[2]) + String.valueOf(board[4]) + String.valueOf(board[6]);
+			break;
+		}
+
+		return line;
+
+	}
+
+	static String checkWinner() {
+
+		for (int a = 0; a < 8; a++) {
+
+			String line = checkPosition(a);
 
 			// For X winner
 			if (line.equals("XXX")) {
+
 				return "X";
 			}
 
@@ -217,6 +238,218 @@ public class TicTacToeGame {
 		}
 
 		return null;
+	}
+
+	public static int computerTurn(Scanner userInput) {
+
+		boolean flag = false;
+
+		System.out.println("Computer method executed");
+
+		for (int a = 0; a < 8; a++) {
+
+			String line = checkPosition(a);
+
+			if (computerLetter == 'X') {
+
+				switch (line) {
+
+				// Line-1 if X
+				case "1XX":
+					inPut = 1;
+					flag = false;
+					a = 9;
+					break;
+				case "X2X":
+					inPut = 2;
+					flag = false;
+					a = 9;
+					break;
+				case "XX3":
+					inPut = 3;
+					flag = false;
+					a = 9;
+					break;
+
+				// Line-2 if X
+				case "4XX":
+					inPut = 4;
+					flag = false;
+					a = 9;
+					break;
+				case "X5X":
+					inPut = 5;
+					flag = false;
+					a = 9;
+					break;
+				case "XX6":
+					inPut = 6;
+					flag = false;
+					a = 9;
+					break;
+
+				// Line-3 if X
+				case "7XX":
+					inPut = 7;
+					flag = false;
+					a = 9;
+					break;
+				case "X8X":
+					inPut = 8;
+					flag = false;
+					a = 9;
+					break;
+				case "XX9":
+					inPut = 9;
+					flag = false;
+					a = 9;
+					break;
+
+				case "X4X":
+					inPut = 4;
+					flag = false;
+					a = 9;
+					break; // vertical Left column middle
+				case "2XX":
+					inPut = 2;
+					flag = false;
+					a = 9;
+					break; // vertical middle column middle
+				case "XX8":
+					inPut = 8;
+					flag = false;
+					a = 9;
+					break; // vertical middle column third
+				case "X6X":
+					inPut = 6;
+					flag = false;
+					a = 9;
+					break; // Vertical right column middle
+				case "3XX":
+					inPut = 3;
+					flag = false;
+					a = 9;
+					break; // Vertical right column first
+
+				case "XX7":
+					inPut = 7;
+					flag = false;
+					a = 9;
+					break; // Right to left diagonal third element
+
+				default:
+					System.out.println("No match found");
+					flag = true;
+
+				}
+
+			}
+
+			else {
+
+				switch (line) {
+
+				// Line-1 if O
+				case "1OO":
+					inPut = 1;
+					flag = false;
+					a = 9;
+					break;
+				case "O2O":
+					inPut = 2;
+					flag = false;
+					a = 9;
+					break;
+				case "OO3":
+					inPut = 3;
+					flag = false;
+					a = 9;
+					break;
+
+				// Line-2 if O
+				case "4OO":
+					inPut = 4;
+					flag = false;
+					a = 9;
+					break;
+				case "O5O":
+					inPut = 5;
+					flag = false;
+					a = 9;
+					break;
+				case "OO6":
+					inPut = 6;
+					flag = false;
+					a = 9;
+					break;
+
+				// Line-3 if O
+				case "7OO":
+					inPut = 7;
+					flag = false;
+					a = 9;
+					break;
+				case "O8O":
+					inPut = 8;
+					flag = false;
+					a = 9;
+					break;
+				case "OO9":
+					inPut = 9;
+					flag = false;
+					a = 9;
+					break;
+
+				case "O4O":
+					inPut = 4;
+					flag = false;
+					a = 9;
+					break; // vertical Left column middle
+				case "2OO":
+					inPut = 2;
+					flag = false;
+					a = 9;
+					break; // vertical middle column middle
+				case "OO8":
+					inPut = 8;
+					flag = false;
+					a = 9;
+					break; // vertical middle column third
+				case "O6O":
+					inPut = 6;
+					flag = false;
+					a = 9;
+					break; // Vertical right column middle
+				case "3OO":
+					inPut = 3;
+					flag = false;
+					a = 9;
+					break; // Vertical right column first
+
+				case "OO7":
+					inPut = 7;
+					flag = false;
+					a = 9;
+					break; // Right to left diagonal third element
+
+				default:
+					System.out.println("No match found");
+					flag = true;
+
+				}
+			}
+
+		}
+
+		if (flag == true) {
+
+			System.out.println("Enter a number for computerer");
+			inPut = userInput.nextInt();
+
+		}
+
+		return inPut;
+
 	}
 
 	public static void main(String[] args) {
