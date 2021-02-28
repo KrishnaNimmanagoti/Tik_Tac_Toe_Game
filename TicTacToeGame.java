@@ -108,15 +108,11 @@ public class TicTacToeGame {
 
 				if (turn == userLetter) {
 
-//				  System.out.println("Computer's turn; enter a slot number to place " + computerLetter + " in:");
-
 					turn = computerLetter;
 
 				}
 
 				else {
-
-//				  System.out.println("User's turn; enter a slot number to place " + userLetter + " in:");
 
 					turn = userLetter;
 
@@ -281,6 +277,14 @@ public class TicTacToeGame {
 				break;
 			case "X5X":
 				inPut = 5;
+				a = 9;
+				break;
+			case "X56":
+				inPut = 5;
+				a = 9;
+				break;
+			case "O8O":
+				inPut = 8;
 				a = 9;
 				break;
 			case "XX6":
@@ -452,7 +456,9 @@ public class TicTacToeGame {
 
 			inPut = 7;
 
-		} else if ((board[8] == '9' && board[7] == '8') && board[5] == '6') {
+		}
+
+		else if ((board[8] == '9' && board[7] == '8') && board[5] == '6') {
 
 			inPut = 9;
 
@@ -474,9 +480,39 @@ public class TicTacToeGame {
 
 		}
 
+		else if (board[4] == '5') {
+
+			inPut = 5;
+
+		}
+
 		else if (board[8] == '9') {
 
 			inPut = 9;
+
+		}
+
+		else if (board[1] == '2') {
+
+			inPut = 2;
+
+		}
+
+		else if (board[3] == '4') {
+
+			inPut = 4;
+
+		}
+
+		else if (board[5] == '6') {
+
+			inPut = 6;
+
+		}
+
+		else if (board[7] == '8') {
+
+			inPut = 8;
 
 		}
 
