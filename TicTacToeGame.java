@@ -9,6 +9,7 @@ public class TicTacToeGame {
 	public static char turn;
 	public static char winner;
 	public static String line;
+	public static boolean check;
 
 	public static void createBoard() {
 
@@ -128,7 +129,8 @@ public class TicTacToeGame {
 
 			winner = checkWinner();
 
-			if (winner == '\u0000')
+			if (winner == '\u0000') {
+
 				if (turn == userLetter) {
 
 					System.out.println("User's turn; enter a slot number to place " + userLetter + " in:");
@@ -139,11 +141,15 @@ public class TicTacToeGame {
 
 				}
 
+			}
+
 		}
 
 		if (winner == 'd') {
 
 			System.out.println("It's a draw! Thanks for playing.");
+
+			winner = '\u0000';
 
 		}
 
@@ -153,9 +159,13 @@ public class TicTacToeGame {
 
 				System.out.println("\nCongratulations! User's have won! Thanks for playing.");
 
+				winner = '\u0000';
+
 			} else {
 
 				System.out.println("\nCongratulations! Computer's have won! Thanks for playing.");
+
+				winner = '\u0000';
 
 			}
 		}
@@ -228,9 +238,9 @@ public class TicTacToeGame {
 			}
 		}
 
-		for (int a = 0; a < 9; a++) {
+		for (int a = 0; a < 9; a++) { // To check is there any free place or not, if not it is draw.
 
-			boolean check = (String.valueOf(board)).contains(String.valueOf(a + 1));
+			check = (String.valueOf(board)).contains(String.valueOf(a + 1));
 
 			if (check) {
 
@@ -536,21 +546,35 @@ public class TicTacToeGame {
 
 	}
 
+	public static void continuePlaying(Scanner userInput) {
+
+	}
+
 	public static void main(String[] args) {
 
 		Scanner userInput = new Scanner(System.in);
 
-		createBoard();
+		char choice = '\u0000';
 
-		userLetter = chooseUserLetter(userInput);
+		do {
 
-		computerLetter = (userLetter == 'X') ? 'O' : 'X';
+			createBoard();
 
-		showBoard();
+			userLetter = chooseUserLetter(userInput);
 
-		turn = toss();
+			computerLetter = (userLetter == 'X') ? 'O' : 'X';
 
-		makeMove(userInput, turn);
+			showBoard();
+
+			turn = toss();
+
+			makeMove(userInput, turn);
+
+			System.out.println("If you Want To Play Again, Press 'y': ");
+
+			choice = userInput.next().charAt(0);
+
+		} while (choice == 'y');
 
 	}
 
