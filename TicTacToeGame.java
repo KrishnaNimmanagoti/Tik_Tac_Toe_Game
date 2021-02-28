@@ -9,6 +9,7 @@ public class TicTacToeGame {
 	public static char turn;
 	public static char winner;
 	public static String line;
+	public static boolean check;
 
 	public static void createBoard() {
 
@@ -108,15 +109,11 @@ public class TicTacToeGame {
 
 				if (turn == userLetter) {
 
-//				  System.out.println("Computer's turn; enter a slot number to place " + computerLetter + " in:");
-
 					turn = computerLetter;
 
 				}
 
 				else {
-
-//				  System.out.println("User's turn; enter a slot number to place " + userLetter + " in:");
 
 					turn = userLetter;
 
@@ -132,7 +129,8 @@ public class TicTacToeGame {
 
 			winner = checkWinner();
 
-			if (winner == '\u0000')
+			if (winner == '\u0000') {
+
 				if (turn == userLetter) {
 
 					System.out.println("User's turn; enter a slot number to place " + userLetter + " in:");
@@ -143,11 +141,15 @@ public class TicTacToeGame {
 
 				}
 
+			}
+
 		}
 
 		if (winner == 'd') {
 
 			System.out.println("It's a draw! Thanks for playing.");
+
+			winner = '\u0000';
 
 		}
 
@@ -157,9 +159,13 @@ public class TicTacToeGame {
 
 				System.out.println("\nCongratulations! User's have won! Thanks for playing.");
 
+				winner = '\u0000';
+
 			} else {
 
 				System.out.println("\nCongratulations! Computer's have won! Thanks for playing.");
+
+				winner = '\u0000';
 
 			}
 		}
@@ -232,9 +238,9 @@ public class TicTacToeGame {
 			}
 		}
 
-		for (int a = 0; a < 9; a++) {
+		for (int a = 0; a < 9; a++) { // To check is there any free place or not, if not it is draw.
 
-			boolean check = (String.valueOf(board)).contains(String.valueOf(a + 1));
+			check = (String.valueOf(board)).contains(String.valueOf(a + 1));
 
 			if (check) {
 
@@ -281,6 +287,14 @@ public class TicTacToeGame {
 				break;
 			case "X5X":
 				inPut = 5;
+				a = 9;
+				break;
+			case "X56":
+				inPut = 5;
+				a = 9;
+				break;
+			case "O8O":
+				inPut = 8;
 				a = 9;
 				break;
 			case "XX6":
@@ -452,7 +466,9 @@ public class TicTacToeGame {
 
 			inPut = 7;
 
-		} else if ((board[8] == '9' && board[7] == '8') && board[5] == '6') {
+		}
+
+		else if ((board[8] == '9' && board[7] == '8') && board[5] == '6') {
 
 			inPut = 9;
 
@@ -474,9 +490,39 @@ public class TicTacToeGame {
 
 		}
 
+		else if (board[4] == '5') {
+
+			inPut = 5;
+
+		}
+
 		else if (board[8] == '9') {
 
 			inPut = 9;
+
+		}
+
+		else if (board[1] == '2') {
+
+			inPut = 2;
+
+		}
+
+		else if (board[3] == '4') {
+
+			inPut = 4;
+
+		}
+
+		else if (board[5] == '6') {
+
+			inPut = 6;
+
+		}
+
+		else if (board[7] == '8') {
+
+			inPut = 8;
 
 		}
 
@@ -500,21 +546,35 @@ public class TicTacToeGame {
 
 	}
 
+	public static void continuePlaying(Scanner userInput) {
+
+	}
+
 	public static void main(String[] args) {
 
 		Scanner userInput = new Scanner(System.in);
 
-		createBoard();
+		char choice = '\u0000';
 
-		userLetter = chooseUserLetter(userInput);
+		do {
 
-		computerLetter = (userLetter == 'X') ? 'O' : 'X';
+			createBoard();
 
-		showBoard();
+			userLetter = chooseUserLetter(userInput);
 
-		turn = toss();
+			computerLetter = (userLetter == 'X') ? 'O' : 'X';
 
-		makeMove(userInput, turn);
+			showBoard();
+
+			turn = toss();
+
+			makeMove(userInput, turn);
+
+			System.out.println("If you Want To Play Again, Press 'y': ");
+
+			choice = userInput.next().charAt(0);
+
+		} while (choice == 'y');
 
 	}
 
